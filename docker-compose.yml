@@ -2,20 +2,20 @@ version: '3'
 services:
     social-nginx:
         build:
-            context: ./social-net/docker/development
+            context: ./docker/development
             dockerfile: nginx.docker
         volumes:
             - ./social-net:/app
         depends_on:
             - social-php-fpm
         ports:
-            - "8080:80"
+            - "8333:80"
     social-php-fpm:
         build:
-            context: ./social-net/docker/development
+            context: ./docker/development
             dockerfile: php-fpm.docker
         volumes:
-            - ./social-net:/app
+            - ./:/app
         depends_on:
             - social-postgres
             - social-redis
@@ -23,17 +23,17 @@ services:
             - storage
     social-php-cli:
         build:
-            context: ./social-net/docker/development
+            context: ./docker/development
             dockerfile: php-cli.docker
         volumes:
-            - ./social-net:/app
+            - ./:/app
             - composer:/root/.composer/cache
         depends_on:
             - social-postgres
             - social-redis
             - social-queue-redis
             - storage
-    manager-postgres:
+    social-postgres:
         image: postgres:11.2-alpine
         volumes:
             - social-postgres:/var/lib/postgresql/data
@@ -42,7 +42,7 @@ services:
             POSTGRES_PASSWORD: secret
             POSTGRES_DB: app
         ports:
-            - "54321:5432"
+            - "54327:5432"
     manager-redis:
         image: redis:5.0-alpine
         volumes:
@@ -65,7 +65,7 @@ services:
         volumes:
             - ./storage:/app
         ports:
-            - "8081:80"
+            - "8481:80"
 
 volumes:
     social-postgres:
