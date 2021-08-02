@@ -86,11 +86,6 @@ class User
      */
     private $role;
     /**
-     * @var Network[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="Network", mappedBy="user", orphanRemoval=true, cascade={"persist"})
-     */
-    private $networks;
-    /**
      * @ORM\Version()
      * @ORM\Column(type="integer")
      */
@@ -102,7 +97,6 @@ class User
         $this->date = $date;
         $this->name = $name;
         $this->role = Role::user();
-        $this->networks = new ArrayCollection();
     }
 
     /**

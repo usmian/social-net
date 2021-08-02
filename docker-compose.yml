@@ -20,7 +20,6 @@ services:
             - social-postgres
             - social-redis
             - social-queue-redis
-            - storage
     social-php-cli:
         build:
             context: ./docker/development
@@ -32,7 +31,6 @@ services:
             - social-postgres
             - social-redis
             - social-queue-redis
-            - storage
     social-postgres:
         image: postgres:11.2-alpine
         volumes:
@@ -43,7 +41,7 @@ services:
             POSTGRES_DB: app
         ports:
             - "54327:5432"
-    manager-redis:
+    social-redis:
         image: redis:5.0-alpine
         volumes:
             - social-redis:/data
@@ -58,14 +56,6 @@ services:
         image: redis:5.0-alpine
         volumes:
             - social-queue-redis:/data
-    storage:
-        build:
-            context: ./storage/docker/development
-            dockerfile: nginx.docker
-        volumes:
-            - ./storage:/app
-        ports:
-            - "8481:80"
 
 volumes:
     social-postgres:
